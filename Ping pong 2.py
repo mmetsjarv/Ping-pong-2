@@ -49,12 +49,12 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    # Aluse juhtimine klaviatuuriga
+    # Kontrolli alust klaviatuuriga
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT] and paddle_x > 0:
-        paddle_x -= 7 # Alus liigub vasakule
+        paddle_x -= paddle_speed
     if keys[pygame.K_RIGHT] and paddle_x < SCREEN_WIDTH - paddle_width:
-        paddle_x += 7 # Alus liigub paremale
+        paddle_x += paddle_speed
 
     # Palli liikumine
     ball_x += ball_speed_x
@@ -67,21 +67,22 @@ while running:
     if ball_y <= 0:
         ball_speed_y *= -1
 
-    # Kui pall kukub maha
+    # Mängu lõpp
     if ball_y + 20 >= SCREEN_HEIGHT:
-        score -= 1          # Võtame punkti maha
-        ball_x = SCREEN_WIDTH // 2  # Paneme palli tagasi keskele
-        ball_y = SCREEN_HEIGHT // 4 # Ja ekraani ülaossa
-        # See hoiab ära mängu sulgumise ja laseb uuesti proovida
+        print(f"Mäng läbi! Sinu skoor: {score}")
+        running = False # Lõpetab tsükli
 
-    # Kokkupõrkete tuvastamine (alus ja pall)
+    # Kokkupõrkete tuvastamine
     ball_rect = pygame.Rect(ball_x, ball_y, 20, 20)
     paddle_rect = pygame.Rect(paddle_x, paddle_y, paddle_width, paddle_height)
 
     if ball_rect.colliderect(paddle_rect):
-        if ball_speed_y > 0:
+        if ball_speed_y > 0: # Ainult siis, kui pall liigub alla
             ball_speed_y *= -1
             score += 1
+            # Muuda palli kiiremaks iga põrkega
+            ball_speed_x *= 1.05
+            ball_speed_y *= 1.05
 
     # Joonistamine
     screen.fill(TAUST)
