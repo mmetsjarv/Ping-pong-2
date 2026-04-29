@@ -67,7 +67,7 @@ while running:
     if ball_y <= 0:
         ball_speed_y *= -1
 
-    # Mängu lõpp
+    # --- 3. LISA: MÄNGU LÕPP, KUI PALL PUUDUTAB PÕHJA ---
     if ball_y + 20 >= SCREEN_HEIGHT:
         print(f"Mäng läbi! Sinu skoor: {score}")
         running = False # Lõpetab tsükli
@@ -80,7 +80,7 @@ while running:
         if ball_speed_y > 0: # Ainult siis, kui pall liigub alla
             ball_speed_y *= -1
             score += 1
-            # Muuda palli kiiremaks iga põrkega
+            # Valikuline: muuda palli kiiremaks iga põrkega
             ball_speed_x *= 1.05
             ball_speed_y *= 1.05
 
